@@ -44,7 +44,7 @@ cc.Class({
                     return true;
                 }
                 var touchLoc = touch.getLocation();
-                self.touchBeganLoc = touchLoc;
+                self.touchBeganLoc = new cc.Vec2(touchLoc);
                 self.moveToPos = self.node.parent.convertToNodeSpaceAR(touchLoc);
                 self.touchStartTime = Date.now();
                 return true; // don't capture event
@@ -56,7 +56,7 @@ cc.Class({
                 var touchLoc = touch.getLocation();
                 self.spArrow.active = true;
                 self.moveToPos = self.node.parent.convertToNodeSpaceAR(touchLoc);
-                if (self.touchBeganLoc.sub(touchLoc).mag() > self.touchMoveThreshold) {
+                if (self.touchBeganLoc && self.touchBeganLoc.sub(touchLoc).mag() > self.touchMoveThreshold) {
                     self.hasMoved = true;
                 }
             },
@@ -104,7 +104,7 @@ cc.Class({
 
     attackOnTarget (atkDir, targetPos) {
         var self = this;
-        let deg = cc.misc.radiansToDegrees( cc.v2(0, 1).signAngle(atkDir) );
+        let deg = cc.radiansToDegrees( cc.v2(0, 1).signAngle(atkDir) );
         let angleDivider = [0, 12, 35, 56, 79, 101, 124, 146, 168, 180];
         let slashPos = null;
         function getAtkSF(mag, sfAtkDirs) {
@@ -172,6 +172,7 @@ cc.Class({
     },
 
     dead () {
+        return true; // invincible for test
         if (this.invincible) return;
         this.node.emit('freeze');
         this.isAlive = false;
@@ -217,7 +218,7 @@ cc.Class({
         if (this.inputEnabled && this.moveToPos && this.isTouchHold()) {
             let dir = this.moveToPos.sub(this.node.position);
             let rad = Math.atan2(dir.y, dir.x);
-            let deg = cc.misc.radiansToDegrees(rad);
+            let deg = cc.radiansToDegrees(rad);
             this.spArrow.rotation = 90-deg;
             this.node.emit('update-dir', {
                 dir: dir.normalize()

@@ -19,7 +19,7 @@ cc.Class({
         this.waveMng = waveMng;
         this.player = waveMng.player;
         let rad = Math.atan2(dir.y, dir.x);
-        let deg = cc.misc.radiansToDegrees(rad);
+        let deg = cc.radiansToDegrees(rad);
         let rotation = 90-deg;
         this.sprite.node.rotation = rotation;
         this.sprite.enabled = true;

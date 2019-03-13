@@ -85,7 +85,7 @@ cc.Class({
         if (this.player && this.isMoving) {
             let dir = this.player.node.position.sub(this.node.position);
             let rad = Math.atan2(dir.y, dir.x);
-            let deg = cc.misc.radiansToDegrees(rad);
+            let deg = cc.radiansToDegrees(rad);
             if (dist < this.atkRange) {
                 this.prepAttack(dir);
                 return;
@@ -133,7 +133,7 @@ cc.Class({
     },
 
     attackOnTarget: function (atkDir, targetPos) {
-        let deg = cc.misc.radiansToDegrees( cc.v2(0, 1).signAngle(atkDir) );
+        let deg = cc.radiansToDegrees( cc.v2(0, 1).signAngle(atkDir) );
         let angleDivider = [0, 45, 135, 180];
         let slashPos = null;
         function getAtkSF(mag, sfAtkDirs) {
